@@ -1,0 +1,112 @@
+<configuration>
+    
+    <!-- -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+            <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %-5level[%thread %logger{0}.%M:%L]%marker%msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="SERVICE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder><pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern></encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${APP_HOME}/log/${APP_NAME}.%d{yyyy-MM-dd}.service.dat</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${APP_HOME}/log/${APP_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+            <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %-5level[%thread %logger{0}.%M:%L]%marker%msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
+        <stackTracePattern>${APP_NAME}_${APP_ID} -</stackTracePattern>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter"><level>WARN</level></filter>
+        <syslogHost>${LOGGING_HOST}</syslogHost><port>${LOGGING_PORT}</port><facility>LOCAL6</facility>
+        <suffixPattern>${APP_NAME}_${APP_ID} %d{yy-MM-dd HH:mm:ss.SSS} %-5level[%thread %logger{0}.%M:%L]%marker%msg%n</suffixPattern>
+    </appender>
+    
+    <!--  -->
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="SYSLOG" />
+    </root>
+    <logger name="SERVICE_LOGGER" additivity="false">
+        <appender-ref ref="SERVICE" />
+    </logger>
+    <logger name="org.quartz.core.QuartzScheduler" additivity="false" level="WARN">
+        <appender-ref ref="FILE" /><appender-ref ref="SYSLOG" />
+    </logger>
+    <logger name="org.eclipse.jetty.server.HttpChannel" additivity="false" level="ERROR">
+        <appender-ref ref="FILE" /><appender-ref ref="SYSLOG" />
+    </logger>
+    <logger name="org.eclipse.jetty.servlet.ServletHandler" additivity="false" level="ERROR">
+        <appender-ref ref="FILE" /><appender-ref ref="SYSLOG" />
+    </logger>
+    
+    <!-- filter -->
+    <turboFilter class="cn.nextop.erebor.common.util.logging.logback.FrequencyControlFilter">
+        <Capacity>512</Capacity>
+    </turboFilter>
+    
+    <appender name="ACCESS_APPENDER" class="cn.nextop.erebor.common.util.logging.logback.AsyncRollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${APP_HOME}/log/web.advance.%d{yyyy-MM-dd}.access.dat</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+    </appender>
+    <logger name="ACCESS_LOGGER" additivity="false"><appender-ref ref="ACCESS_APPENDER" /></logger><!-- access -->
+    
+    <appender name="ATTACK_APPENDER" class="cn.nextop.erebor.common.util.logging.logback.AsyncRollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${APP_HOME}/log/web.advance.%d{yyyy-MM-dd}.attack.dat</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+    </appender>
+    <logger name="ATTACK_LOGGER" additivity="false"><appender-ref ref="ATTACK_APPENDER" /></logger><!-- attack -->
+    
+    <appender name="SESSION_APPENDER" class="cn.nextop.erebor.common.util.logging.logback.AsyncRollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${APP_HOME}/log/web.advance.%d{yyyy-MM-dd}.session.dat</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+    </appender>
+    <logger name="SESSION_LOGGER" additivity="false"><appender-ref ref="SESSION_APPENDER" /></logger><!-- session -->
+    
+    <appender name="EVENT_APPENDER" class="cn.nextop.erebor.common.util.logging.logback.AsyncRollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${APP_HOME}/log/web.advance.%d{yyyy-MM-dd}.event.dat</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+    </appender>
+    <logger name="EVENT_LOGGER" additivity="false"><appender-ref ref="EVENT_APPENDER" /></logger><!-- async events -->
+    
+    <appender name="WEBSOCKET_APPENDER" class="cn.nextop.erebor.common.util.logging.logback.AsyncRollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${APP_HOME}/log/web.advance.%d{yyyy-MM-dd}.websocket.dat</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+    </appender>
+    <logger name="WEBSOCKET_LOGGER" additivity="false"><appender-ref ref="WEBSOCKET_APPENDER" /></logger><!-- web socket -->
+</configuration>
