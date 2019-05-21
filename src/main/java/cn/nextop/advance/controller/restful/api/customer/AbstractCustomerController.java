@@ -1,5 +1,7 @@
 package cn.nextop.advance.controller.restful.api.customer;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import cn.nextop.advance.controller.AbstractController;
 
 /**
@@ -7,6 +9,7 @@ import cn.nextop.advance.controller.AbstractController;
  * @author qutl
  *
  */
+@RequestMapping("/api/customer")
 public class AbstractCustomerController extends AbstractController {
 
 	/**

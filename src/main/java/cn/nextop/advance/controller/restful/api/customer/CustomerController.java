@@ -13,31 +13,31 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.nextop.advance.controller.restful.RestApiController;
 
 @RestController
-public class ProductController extends RestApiController {
+public class CustomerController extends RestApiController {
 	
 	/**
 	 * 
 	 */
-	public ProductController() {
+	public CustomerController() {
 		super("customer");
 	}
 
-	@RequestMapping(value = "/customer", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Map<String, Object> getProduction(@RequestParam(name="id", required=false) Integer id) {
+	@RequestMapping(method = RequestMethod.GET, consumes=MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Map<String, Object> getCustomer(@RequestParam(name="id", required=false) Integer id) {
 		Map<String, Object> resultData = new HashMap<>();
 		if(id == null) {resultData.put("resultCode", "all"); return resultData;}
 		switch (id) {
 		case 1:
-			resultData.put("resultCode", "product 1");
+			resultData.put("resultCode", "customer 1");
 			break;
 		case 2:
-			resultData.put("resultCode", "product 2");
+			resultData.put("resultCode", "customer 2");
 			break;
 		case 3:
-			resultData.put("resultCode", "product 3");
+			resultData.put("resultCode", "customer 3");
 			break;
 		case 4:
-			resultData.put("resultCode", "product 4");
+			resultData.put("resultCode", "customer 4");
 			break;
 		default:
 			resultData.put("resultCode", UUID.randomUUID().toString());
