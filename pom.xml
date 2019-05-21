@@ -137,6 +137,9 @@
 							<classpathPrefix>../lib</classpathPrefix>
 							<addClasspath>true</addClasspath>
 						</manifest>
+						<manifestEntries>
+							<Class-Path>../config/</Class-Path>
+						</manifestEntries>
 					</archive>
 					<includes>
 						<!-- 只打包指定目录的文件 -->
