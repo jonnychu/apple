@@ -132,7 +132,7 @@
 					<archive>
 						<manifest>
 							<!-- 项目启动类 -->
-							<mainClass>cn.nextop.rf.Startup</mainClass>
+							<mainClass>cn.nextop.apple.Startup</mainClass>
 							<!-- 依赖的jar的目录前缀 -->
 							<classpathPrefix>../lib</classpathPrefix>
 							<addClasspath>true</addClasspath>
@@ -140,7 +140,7 @@
 					</archive>
 					<includes>
 						<!-- 只打包指定目录的文件 -->
-						<include>cn/nextop/rf/**</include>
+						<include>cn/nextop/apple/**</include>
 					</includes>
 				</configuration>
 			</plugin>
