@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<assembly>
+
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+
 	<!-- 可自定义，这里指定的是项目环境 -->
 	<!-- spring-boot-assembly-local-1.0.RELEASE.tar.gz -->
 	<id>${profileActive}</id>
@@ -9,7 +12,7 @@
 		<format>tar.gz</format>
 		<!--<format>zip</format> -->
 	</formats>
-
+	
 	<includeBaseDirectory>true</includeBaseDirectory>
 
 	<fileSets>
@@ -59,6 +62,10 @@
 			</includes>
 		</fileSet>
 
+		<fileSet>
+			<outputDirectory>log</outputDirectory>
+		</fileSet>
+		
 		<!-- 包含根目录下的文件 -->
 		<fileSet>
 			<directory>${basedir}</directory>
