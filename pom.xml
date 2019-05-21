@@ -140,7 +140,7 @@
 					</archive>
 					<includes>
 						<!-- 只打包指定目录的文件 -->
-						<include>cn/nextop/apple/**</include>
+						<include>cn/nextop/advance/**</include>
 					</includes>
 				</configuration>
 			</plugin>
