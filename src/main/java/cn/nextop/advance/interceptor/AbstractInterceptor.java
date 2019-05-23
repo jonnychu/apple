@@ -8,5 +8,5 @@ import org.springframework.web.servlet.HandlerInterceptor;
  *
  */
 public abstract class AbstractInterceptor implements HandlerInterceptor {
-
+	
 }

@@ -22,7 +22,7 @@ public class CustomerController extends RestApiController {
 		super("customer");
 	}
 
-	@RequestMapping(method = RequestMethod.GET, consumes=MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Map<String, Object> getCustomer(@RequestParam(name="id", required=false) Integer id) {
 		Map<String, Object> resultData = new HashMap<>();
 		if(id == null) {resultData.put("resultCode", "all"); return resultData;}

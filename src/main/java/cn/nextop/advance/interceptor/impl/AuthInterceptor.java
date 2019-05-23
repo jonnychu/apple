@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.nextop.advance.interceptor.AbstractInterceptor;
@@ -13,6 +14,7 @@ import cn.nextop.advance.interceptor.AbstractInterceptor;
  * @author qutl
  *
  */
+@Component
 public class AuthInterceptor extends AbstractInterceptor {
 	
 	
