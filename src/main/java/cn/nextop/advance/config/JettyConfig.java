@@ -27,6 +27,6 @@ public class JettyConfig {
 	public JettyServerCustomizer jettyServerCustomizer() {
 		return server -> { 
 			final QueuedThreadPool qtp = server.getBean(QueuedThreadPool.class);
-			qtp.setMaxThreads(100); qtp.setMinThreads(20); qtp.setIdleTimeout(60000); };
+			qtp.setMaxThreads(100); qtp.setMinThreads(20); qtp.setIdleTimeout(60000); qtp.setName("JettyThreadPool");};
 	}
 }
