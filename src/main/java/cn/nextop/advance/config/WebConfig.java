@@ -1,6 +1,7 @@
 package cn.nextop.advance.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -12,8 +13,20 @@ import cn.nextop.advance.interceptor.impl.AuthInterceptor;
  *
  */
 @Configuration
-public class InterceptorConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
 	
+	/**
+	 * Cors
+	 */
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/api/**");
+		WebMvcConfigurer.super.addCorsMappings(registry);
+	}
+	
+	/**
+	 * Interceptor
+	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/api/customer/**");
