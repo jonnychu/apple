@@ -31,6 +31,13 @@ public class ExceptionHandlerAdvice extends AbstractExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public String handle(HttpServletRequest request, Exception e) {
-		return "error";
+		log(request.getRequestURI(), e); return "error";
+	}
+	
+	/**
+	 * 
+	 */
+	protected final void log(String uri, Throwable cause) {
+		LOGGER.warn("handled exception, uri: {}, cause: {}", uri, cause); return;
 	}
 }

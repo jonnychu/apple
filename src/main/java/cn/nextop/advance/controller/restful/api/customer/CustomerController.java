@@ -39,6 +39,8 @@ public class CustomerController extends RestApiController {
 		case 4:
 			resultData.put("resultCode", "customer 4");
 			break;
+		case 5:
+			throw new IllegalArgumentException();
 		default:
 			resultData.put("resultCode", UUID.randomUUID().toString());
 			break;
