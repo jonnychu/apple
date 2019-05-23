@@ -1,6 +1,5 @@
 package cn.nextop.advance.config;
 
-import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.springframework.boot.web.embedded.jetty.JettyServerCustomizer;
 import org.springframework.boot.web.embedded.jetty.JettyServletWebServerFactory;
@@ -15,6 +14,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JettyConfig {
 
+	/**
+	 * 
+	 */
 	@Bean
 	public JettyServletWebServerFactory jettyEmbeddedServletContainerFactory(JettyServerCustomizer jettyServerCustomizer) {
 		JettyServletWebServerFactory factory = new JettyServletWebServerFactory();
@@ -23,11 +25,8 @@ public class JettyConfig {
 
 	@Bean
 	public JettyServerCustomizer jettyServerCustomizer() {
-		return server -> { threadPool(server); };
-	}
-
-	private void threadPool(Server server) {
-		final QueuedThreadPool threadPool = server.getBean(QueuedThreadPool.class);
-		threadPool.setMaxThreads(100); threadPool.setMinThreads(20); threadPool.setIdleTimeout(60000);
+		return server -> { 
+			final QueuedThreadPool qtp = server.getBean(QueuedThreadPool.class);
+			qtp.setMaxThreads(100); qtp.setMinThreads(20); qtp.setIdleTimeout(60000); };
 	}
 }

@@ -2,6 +2,7 @@ package cn.nextop.advance.interceptor.impl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,10 @@ public class AuthInterceptor extends AbstractInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
 	}
 
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+			@Nullable Exception ex) throws Exception {
+		HttpSession session = request.getSession();
+		if (session != null)
+			System.out.println(session.getId());
 	}
 }
