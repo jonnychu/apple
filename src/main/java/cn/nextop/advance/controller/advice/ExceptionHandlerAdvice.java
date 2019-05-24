@@ -1,4 +1,4 @@
-package cn.nextop.advance.controller.advance;
+package cn.nextop.advance.controller.advice;
 
 import javax.servlet.http.HttpServletRequest;
 
