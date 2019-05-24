@@ -1,15 +1,17 @@
 package cn.nextop.advance.config;
 
+import static java.time.Duration.ofSeconds;
+
 import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.boot.task.TaskExecutorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
  * 
@@ -24,12 +26,12 @@ public class ExecutorConfig implements AsyncConfigurer {
 	@Bean
 	@Override
 	public Executor getAsyncExecutor() {
-		ThreadPoolTaskExecutor tpte = new ThreadPoolTaskExecutor();
-		tpte.setThreadNamePrefix("AsyncExecutor-"); tpte.setCorePoolSize(2); 
-		tpte.setMaxPoolSize(10); tpte.setQueueCapacity(20); tpte.initialize(); return tpte;
+		TaskExecutorBuilder builder = new TaskExecutorBuilder();
+		builder.corePoolSize(2).maxPoolSize(16).queueCapacity(100)
+		.keepAlive(ofSeconds(60)).threadNamePrefix("AsyncThread-"); return builder.build();
 	}
 
-	@Override
+	@Override	
 	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
 		return new AsyncUncaughtExceptionHandler() {
 			
