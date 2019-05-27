@@ -1,4 +1,4 @@
-package cn.nextop.advance.realtime.impl;
+package cn.nextop.advance.realtime.impl.customer;
 
 import cn.nextop.advance.realtime.AbstractWebSocketHandler;
 

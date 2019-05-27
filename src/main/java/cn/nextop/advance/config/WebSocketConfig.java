@@ -9,7 +9,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import cn.nextop.advance.interceptor.impl.XHandshakeInterceptor;
-import cn.nextop.advance.realtime.impl.CustomerWebSocketHandler;
+import cn.nextop.advance.realtime.impl.customer.CustomerWebSocketHandler;
 
 /**
  * 
@@ -27,6 +27,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new CustomerWebSocketHandler(), "/realtime/login").addInterceptors(new XHandshakeInterceptor());
+        registry.addHandler(new CustomerWebSocketHandler(), "/api/realtime").addInterceptors(new XHandshakeInterceptor());
     }
 }
