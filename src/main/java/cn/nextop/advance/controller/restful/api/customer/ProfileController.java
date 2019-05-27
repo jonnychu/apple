@@ -52,7 +52,7 @@ public class ProfileController extends AbstractCustomerController {
 				break;
 			}
 			try {
-				Thread.sleep(6000);
+				Thread.sleep(61000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
