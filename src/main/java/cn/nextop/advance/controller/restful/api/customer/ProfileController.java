@@ -43,6 +43,11 @@ public class ProfileController extends AbstractCustomerController {
 				resultData.put("resultCode", "profile 3");
 				break;
 			case 4:
+				try {
+					Thread.sleep(61000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				resultData.put("resultCode", "profile 4");
 				break;
 			case 5:
@@ -50,11 +55,6 @@ public class ProfileController extends AbstractCustomerController {
 			default:
 				resultData.put("resultCode", UUID.randomUUID().toString());
 				break;
-			}
-			try {
-				Thread.sleep(61000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
 			return resultData;
 		});

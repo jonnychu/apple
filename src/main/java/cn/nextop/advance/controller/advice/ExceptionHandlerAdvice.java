@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 /**
  * 
@@ -32,6 +33,13 @@ public class ExceptionHandlerAdvice extends AbstractExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public String handle(HttpServletRequest request, Exception e) {
 		log(request.getRequestURI(), e); return "error";
+	}
+	
+	@ResponseBody
+	@ResponseStatus(HttpStatus.REQUEST_TIMEOUT)
+	@ExceptionHandler(AsyncRequestTimeoutException.class)
+	public String handle(HttpServletRequest request, AsyncRequestTimeoutException e) {
+		log(request.getRequestURI(), e); return "timeout";
 	}
 	
 	/**
