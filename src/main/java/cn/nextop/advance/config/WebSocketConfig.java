@@ -43,7 +43,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new XWebSocketHandler(), "/api/realtime")
+        registry.addHandler(getWebSocketHandler(), "/api/realtime")
         .setHandshakeHandler(getDefaultHandshakeHandler()).
         addInterceptors(getHandshakeInterceptor()).setAllowedOrigins("*");
     }
