@@ -7,9 +7,10 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
+import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 import cn.nextop.advance.interceptor.impl.XHandshakeInterceptor;
-import cn.nextop.advance.realtime.impl.customer.CustomerWebSocketHandler;
+import cn.nextop.advance.support.websock.XWebSocketHandler;
 
 /**
  * 
@@ -25,8 +26,25 @@ public class WebSocketConfig implements WebSocketConfigurer {
         return new ServerEndpointExporter();
     }
 
+    @Bean
+    public XWebSocketHandler getWebSocketHandler() {
+        return new XWebSocketHandler();
+    }
+    
+    @Bean
+    public XHandshakeInterceptor getHandshakeInterceptor() {
+        return new XHandshakeInterceptor();
+    }
+    
+    @Bean
+    public DefaultHandshakeHandler getDefaultHandshakeHandler() {
+        return new DefaultHandshakeHandler();
+    }
+    
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new CustomerWebSocketHandler(), "/api/realtime").addInterceptors(new XHandshakeInterceptor());
+        registry.addHandler(new XWebSocketHandler(), "/api/realtime")
+        .setHandshakeHandler(getDefaultHandshakeHandler()).
+        addInterceptors(getHandshakeInterceptor()).setAllowedOrigins("*");
     }
 }

@@ -1,7 +1,7 @@
 package cn.nextop.advance.realtime.impl.customer;
 
-import cn.nextop.advance.realtime.AbstractWebSocketHandler;
+import cn.nextop.advance.support.websock.XWebSocketHandler;
 
-public class CustomerWebSocketHandler extends AbstractWebSocketHandler {
+public class CustomerWebSocketHandler extends XWebSocketHandler {
 
 }

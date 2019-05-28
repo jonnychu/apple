@@ -13,7 +13,7 @@ public class XHandshakeInterceptor extends AbstractHandshakeInterceptor {
 	@Override
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
 			Map<String, Object> attributes) throws Exception {
-		return false;
+		return true;
 	}
 
 	@Override
