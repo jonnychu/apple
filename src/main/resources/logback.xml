@@ -25,6 +25,61 @@
         </encoder>
     </appender>
     
+	<appender name="ACCESS_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+             <fileNamePattern>${APP_HOME}/log/web.advance.%d{yyyy-MM-dd}.access.dat</fileNamePattern>
+         </rollingPolicy>
+         <encoder>
+             <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+             <outputPatternAsHeader>false</outputPatternAsHeader>
+         </encoder>
+     </appender>
+     <logger name="ACCESS_LOGGER" additivity="false"><appender-ref ref="ACCESS_APPENDER" /></logger><!-- access -->
+     
+     <appender name="ATTACK_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+             <fileNamePattern>${APP_HOME}/log/web.advance.%d{yyyy-MM-dd}.attack.dat</fileNamePattern>
+         </rollingPolicy>
+         <encoder>
+             <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+             <outputPatternAsHeader>false</outputPatternAsHeader>
+         </encoder>
+     </appender>
+     <logger name="ATTACK_LOGGER" additivity="false"><appender-ref ref="ATTACK_APPENDER" /></logger><!-- attack -->
+     
+     <appender name="SESSION_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+             <fileNamePattern>${APP_HOME}/log/web.advance.%d{yyyy-MM-dd}.session.dat</fileNamePattern>
+         </rollingPolicy>
+         <encoder>
+             <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+             <outputPatternAsHeader>false</outputPatternAsHeader>
+         </encoder>
+     </appender>
+     <logger name="SESSION_LOGGER" additivity="false"><appender-ref ref="SESSION_APPENDER" /></logger><!-- session -->
+     
+     <appender name="EVENT_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+             <fileNamePattern>${APP_HOME}/log/web.advance.%d{yyyy-MM-dd}.event.dat</fileNamePattern>
+         </rollingPolicy>
+         <encoder>
+             <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+             <outputPatternAsHeader>false</outputPatternAsHeader>
+         </encoder>
+     </appender>
+     <logger name="EVENT_LOGGER" additivity="false"><appender-ref ref="EVENT_APPENDER" /></logger><!-- async events -->
+     
+     <appender name="WEBSOCKET_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+             <fileNamePattern>${APP_HOME}/log/web.advance.%d{yyyy-MM-dd}.websocket.dat</fileNamePattern>
+         </rollingPolicy>
+         <encoder>
+             <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+             <outputPatternAsHeader>false</outputPatternAsHeader>
+         </encoder>
+     </appender>
+     <logger name="WEBSOCKET_LOGGER" additivity="false"><appender-ref ref="WEBSOCKET_APPENDER" /></logger><!-- web socket -->
+    
     <!--  -->
     <root level="INFO">
         <appender-ref ref="FILE" /> <appender-ref ref="STDOUT" />

@@ -1,5 +1,8 @@
 package cn.nextop.advance.config;
 
+import static cn.nextop.advance.realtime.glossary.Event.CUSTOMER;
+import static org.eclipse.jetty.websocket.api.WebSocketBehavior.SERVER;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +13,11 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 import cn.nextop.advance.interceptor.impl.XHandshakeInterceptor;
+import cn.nextop.advance.realtime.XWebSocketChannel;
+import cn.nextop.advance.realtime.channel.api.customer.CustomerChannel;
+import cn.nextop.advance.support.websock.XRequestUpgradeStrategy;
 import cn.nextop.advance.support.websock.XWebSocketHandler;
+import cn.nextop.advance.support.websock.XWebSocketPolicy;
 
 /**
  * 
@@ -28,7 +35,10 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public XWebSocketHandler getWebSocketHandler() {
-        return new XWebSocketHandler();
+    	XWebSocketHandler handler = new XWebSocketHandler();
+    	XWebSocketChannel customer = new CustomerChannel();
+    	handler.addChannels(CUSTOMER, customer);
+        return handler;
     }
     
     @Bean
@@ -38,7 +48,9 @@ public class WebSocketConfig implements WebSocketConfigurer {
     
     @Bean
     public DefaultHandshakeHandler getDefaultHandshakeHandler() {
-        return new DefaultHandshakeHandler();
+    	XWebSocketPolicy policy = new XWebSocketPolicy(SERVER);
+    	XRequestUpgradeStrategy rus = new XRequestUpgradeStrategy(policy);
+        return new DefaultHandshakeHandler(rus);
     }
     
     @Override

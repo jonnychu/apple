@@ -9,12 +9,9 @@ import java.util.function.Supplier;
 import org.eclipse.jetty.websocket.api.WriteCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 
 import cn.nextop.advance.realtime.XWebSocketChannel;
@@ -22,6 +19,7 @@ import cn.nextop.advance.realtime.XWebSocketSubscription;
 import cn.nextop.advance.realtime.glossary.Event;
 import cn.nextop.advance.support.util.ConcurrentMultiKeyMap;
 import cn.nextop.advance.support.util.HttpRequests;
+import cn.nextop.advance.support.util.MapperUtil;
 import cn.nextop.advance.support.websock.XWebSocketSession;
 
 /**
@@ -40,8 +38,6 @@ public abstract class AbstractChannel implements XWebSocketChannel {
 	protected final Event event; @Override public final Event getEvent() { return this.event; }
 	protected final ConcurrentMultiKeyMap<String, XWebSocketSubscription, SubscriberEx> index1;
 	protected final ConcurrentMultiKeyMap<XWebSocketSubscription, String, SubscriberEx> index2;
-	//
-	@Autowired private ObjectMapper mapper;
 	
 	/**
 	 * 
@@ -57,14 +53,6 @@ public abstract class AbstractChannel implements XWebSocketChannel {
 	 */
 	protected final boolean isEmpty(Map<?, ?> m) {
 		if(m == null || m.isEmpty()) return true; else return false;
-	}
-	
-	protected final String write(final ObjectMapper mapper, Object obj) {
-		String json = "";
-		try {
-			json = mapper.writeValueAsString(obj);
-		} catch (JsonProcessingException e) {}
-		return json;
 	}
 	
 	protected final String string(Object v, String w) {
@@ -140,7 +128,7 @@ public abstract class AbstractChannel implements XWebSocketChannel {
 	
 	protected void success(XWebSocketSession wss, Map<String, Object> req, Object data) {
 		Map<String, Object> rep = req; rep.put("result", "SUCCESS"); rep.put("data", data);
-		wss.sendMessage(new TextMessage(write(this.mapper, rep)), new WriteCallbackEx(wss));
+		wss.sendMessage(new TextMessage(MapperUtil.write(rep)), new WriteCallbackEx(wss));
 	}
 	
 	/**
@@ -156,13 +144,13 @@ public abstract class AbstractChannel implements XWebSocketChannel {
 	
 	protected final String toJson( Event event, Object data ) {
 		final Map<String, Object> message = Maps.newHashMapWithExpectedSize(2);
-		message.put("event", event); message.put("data", data); return write(this.mapper, message);
+		message.put("event", event); message.put("data", data); return MapperUtil.write(message);
 	}
 	
 	protected final String toJson (final Event event, final Object data, Map<String, Object> extra) {
 		final Map<String, Object> message = Maps.newHashMapWithExpectedSize(2 + extra.size());
 		for(Map.Entry<String, Object> me : extra.entrySet()) message.put(me.getKey(), me.getValue());
-		message.put("event", event); message.put("data", data); return write(this.mapper, message);
+		message.put("event", event); message.put("data", data); return MapperUtil.write(message);
 	}
 	
 	/**
