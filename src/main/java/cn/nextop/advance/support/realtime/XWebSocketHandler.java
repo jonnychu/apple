@@ -1,4 +1,4 @@
-package cn.nextop.advance.support.websock;
+package cn.nextop.advance.support.realtime;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.apache.commons.lang3.StringUtils.upperCase;

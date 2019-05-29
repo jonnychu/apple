@@ -17,10 +17,10 @@ import com.google.common.collect.Maps;
 import cn.nextop.advance.realtime.XWebSocketChannel;
 import cn.nextop.advance.realtime.XWebSocketSubscription;
 import cn.nextop.advance.realtime.glossary.Event;
+import cn.nextop.advance.support.realtime.XWebSocketSession;
 import cn.nextop.advance.support.util.ConcurrentMultiKeyMap;
 import cn.nextop.advance.support.util.HttpRequests;
 import cn.nextop.advance.support.util.MapperUtil;
-import cn.nextop.advance.support.websock.XWebSocketSession;
 
 /**
  * 

@@ -3,7 +3,7 @@ package cn.nextop.advance.realtime;
 import java.util.Map;
 
 import cn.nextop.advance.realtime.glossary.Event;
-import cn.nextop.advance.support.websock.XWebSocketSession;
+import cn.nextop.advance.support.realtime.XWebSocketSession;
 
 /**
  * 

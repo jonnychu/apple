@@ -1,4 +1,4 @@
-package cn.nextop.advance.support.websock;
+package cn.nextop.advance.support.realtime;
 
 import org.eclipse.jetty.websocket.api.WebSocketBehavior;
 import org.eclipse.jetty.websocket.api.WebSocketPolicy;

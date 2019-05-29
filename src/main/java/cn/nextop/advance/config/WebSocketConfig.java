@@ -15,9 +15,9 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import cn.nextop.advance.interceptor.impl.XHandshakeInterceptor;
 import cn.nextop.advance.realtime.XWebSocketChannel;
 import cn.nextop.advance.realtime.channel.api.customer.CustomerChannel;
-import cn.nextop.advance.support.websock.XRequestUpgradeStrategy;
-import cn.nextop.advance.support.websock.XWebSocketHandler;
-import cn.nextop.advance.support.websock.XWebSocketPolicy;
+import cn.nextop.advance.support.realtime.XRequestUpgradeStrategy;
+import cn.nextop.advance.support.realtime.XWebSocketHandler;
+import cn.nextop.advance.support.realtime.XWebSocketPolicy;
 
 /**
  * 

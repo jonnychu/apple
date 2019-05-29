@@ -11,7 +11,7 @@ import cn.nextop.advance.realtime.channel.api.AbstractApiChannel;
 import cn.nextop.advance.realtime.channel.api.customer.entity.CustomerSubscription;
 import cn.nextop.advance.realtime.channel.api.customer.event.CustomerEvent;
 import cn.nextop.advance.realtime.glossary.Event;
-import cn.nextop.advance.support.websock.XWebSocketSession;
+import cn.nextop.advance.support.realtime.XWebSocketSession;
 
 public class CustomerChannel extends AbstractApiChannel {
 	//
