@@ -1,17 +1,20 @@
 package cn.nextop.advance.support.realtime;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.upperCase;
 import static org.springframework.web.socket.CloseStatus.NORMAL;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.PingMessage;
 import org.springframework.web.socket.PongMessage;
@@ -33,12 +36,12 @@ import cn.nextop.advance.support.util.MapperUtil;
  * @author qutl
  *
  */
-@Component
 public class XWebSocketHandler implements WebSocketHandler {
 	//
 	private static final Logger WEBSOCKET = LoggerFactory.getLogger("WEBSOCKET_LOGGER");
 	private static final Logger LOGGER = LoggerFactory.getLogger(XWebSocketHandler.class);
 	//
+	private List<XWebSocketChannel> channels1 = new ArrayList<>();
 	private final ConcurrentMultiKeyMap<String, String, WebSocketSession> sessions;
 	private final Map<Event, XWebSocketChannel> channels2 = new EnumMap<>(Event.class);
 	
@@ -49,8 +52,9 @@ public class XWebSocketHandler implements WebSocketHandler {
 		this.sessions = new ConcurrentMultiKeyMap<>(4096);
 	}
 
-	public void addChannels (Event event, XWebSocketChannel channel) {
-		this.channels2.put(event, channel);
+	public void setChannels (List<XWebSocketChannel> channels) {
+		this.channels1 = channels;
+		this.channels1.stream().forEach(v -> { this.channels2.put(v.getEvent(), v); });
 	}
 	
 	protected final String getSessionId(final WebSocketSession session) {
@@ -67,7 +71,7 @@ public class XWebSocketHandler implements WebSocketHandler {
 	
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		long et, mark = System.nanoTime(); Map<String, Object> m = null; String payload = null;
+		long et, mark = System.nanoTime(); Map<String, Object> m = new HashMap<>(); String payload = null;
 		final String sessionId = session.getId();
 		if (session instanceof XWebSocketSession) ((XWebSocketSession) session).setTimestamp(System.currentTimeMillis());
 		if ((message instanceof PingMessage) || (message instanceof PongMessage)) return; /* ignore ping/pong messages */
@@ -77,7 +81,7 @@ public class XWebSocketHandler implements WebSocketHandler {
 				LOGGER.warn("[WEBSOCKET]reject message[1]: {}, sessionId: {}", message, sessionId); return;
 			}
 			
-			payload = (String)message.getPayload(); if (payload == null) {
+			payload = (String)message.getPayload(); if (isEmpty(payload)) {
 				WEBSOCKET.info("* {}", session.getId()); /*ping*/
 				LOGGER.warn("[WEBSOCKET]reject message[2]: {}, sessionId: {}", payload, sessionId); return;
 			}
@@ -119,8 +123,8 @@ public class XWebSocketHandler implements WebSocketHandler {
 		final long now = System.currentTimeMillis(), mark = System.nanoTime();
 		final long timeout = 30000L;
 		try {
-			if (timeout > 0L) for(final String key : this.sessions.keySet()) {
-				for(final WebSocketSession session : this.sessions.get((key)).values()) {
+			if (timeout > 0L) {	for(final String key : this.sessions.keySet()) {
+					for(final WebSocketSession session : this.sessions.get((key)).values()) {
 					//
 					if(((XWebSocketSession) session).getTimestamp() + timeout >= now) continue;
 					final WebSocketSession expire = this.sessions.remove(key, session.getId());
@@ -131,26 +135,36 @@ public class XWebSocketHandler implements WebSocketHandler {
 					String address = session.getRemoteAddress().getHostString();
 					WEBSOCKET.info("! {},{},{},{},{}", session.getId(), sessionId, address, "expire");
 					try { if (expire != null) ((XWebSocketSession)(expire)).close(NORMAL); } catch(Throwable ignore) {}
+					}
 				}
 			}
 		} catch(Throwable cause) {
 			LOGGER.error("failed to pulse, elapsed time: " + TimeUnit.MILLISECONDS.toNanos(System.nanoTime() - mark) + " ms", cause);
 		}
+		System.out.println("pulse");
 	}
 
+	/**
+	 * 
+	 */
 	@Override
-	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		
+	public final void afterConnectionEstablished ( final WebSocketSession session ) {
+		final String sessionId = getSessionId(session); this.sessions.put(sessionId, session.getId(), session);
+		WEBSOCKET.info("> {},{},{},", session.getId(), sessionId, session.getRemoteAddress().getHostString());
 	}
 	
 	@Override
-	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-		
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+		final String sessionId = getSessionId(session); this.sessions.remove(sessionId, session.getId());
+		WEBSOCKET.info("< {},{},{},{},", session.getId(), sessionId, session.getRemoteAddress().getHostString());
+		for(int i = 0, size = this.channels1.size(); i < size; i++) this.channels1.get(i).unsubscribe((XWebSocketSession)session, null);
 	}
-
+	
 	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-		
+	public void handleTransportError(WebSocketSession session, Throwable throwable) {
+		final String sessionId = getSessionId(session); if (this.sessions.remove(sessionId, session.getId()) == null) return;
+		WEBSOCKET.info("! {},{},{},{}", session.getId(), sessionId, session.getRemoteAddress().getHostString(), throwable);
+		try { session.close(NORMAL); } catch (Throwable ignore) {}
 	}
 
 	@Override

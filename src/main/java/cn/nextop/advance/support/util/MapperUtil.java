@@ -3,8 +3,6 @@ package cn.nextop.advance.support.util;
 import java.io.IOException;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -18,9 +16,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SuppressWarnings("unchecked")
 public class MapperUtil {
 	//
-	@Autowired private static ObjectMapper mapper;
+	private static ObjectMapper mapper = new ObjectMapper();
 	
 	public final static String write(Object obj) {
+		
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(obj);

@@ -2,9 +2,6 @@ package cn.nextop.advance.realtime.channel.api.customer;
 
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cn.nextop.advance.realtime.XWebSocketChannel;
 import cn.nextop.advance.realtime.XWebSocketSubscription;
 import cn.nextop.advance.realtime.channel.api.AbstractApiChannel;
@@ -14,9 +11,6 @@ import cn.nextop.advance.realtime.glossary.Event;
 import cn.nextop.advance.support.realtime.XWebSocketSession;
 
 public class CustomerChannel extends AbstractApiChannel {
-	//
-	private static Logger LOGGER = LoggerFactory.getLogger (CustomerChannel.class);
-	
 	//
 	public CustomerChannel () { super("customer", Event.CUSTOMER); }
 	

@@ -1,7 +1,8 @@
 package cn.nextop.advance.config;
 
-import static cn.nextop.advance.realtime.glossary.Event.CUSTOMER;
 import static org.eclipse.jetty.websocket.api.WebSocketBehavior.SERVER;
+
+import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,8 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+
+import com.google.common.collect.Lists;
 
 import cn.nextop.advance.interceptor.impl.XHandshakeInterceptor;
 import cn.nextop.advance.realtime.XWebSocketChannel;
@@ -36,8 +39,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Bean
     public XWebSocketHandler getWebSocketHandler() {
     	XWebSocketHandler handler = new XWebSocketHandler();
-    	XWebSocketChannel customer = new CustomerChannel();
-    	handler.addChannels(CUSTOMER, customer);
+    	List<XWebSocketChannel> channels = Lists.newArrayList();
+    	channels.add(new CustomerChannel()); handler.setChannels(channels);
         return handler;
     }
     
