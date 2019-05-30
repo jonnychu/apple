@@ -2,6 +2,8 @@ package cn.nextop.advance.support.util;
 
 import static nl.bitwalker.useragentutils.UserAgent.parseUserAgentString;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.trimToNull;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +27,14 @@ public final class HttpRequests {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HttpRequests.class);
 	
 	//
-	public static final String API = "/rest/api/";
+	public static final String API = "/api/";
+	public static final String BEARER = "Bearer ";
 	public static final String X_VERSION = "X-Version";
+	public static final String ACCESS_TOKEN = "access_token";
 	
 	//
 	public static final String SESSION_ID_KEY = "session_id";
+	
 	
 	//
 	public static final String LOGIN_KEY = "_login_";
@@ -109,6 +114,13 @@ public final class HttpRequests {
 	public static final String getVersion(final HttpServletRequest request) {
 		String v = getAccessPath(request); if (!v.startsWith(API)) return request.getHeader(X_VERSION);
 		final int st = API.length(), ed = v.indexOf('/', st); return ed > 0 ? v.substring(st, ed) : "";
+	}
+	
+	public static String getAccessToken(HttpServletRequest request) {
+		// see http://self-issued.info/docs/draft-ietf-oauth-v2-bearer.html
+		String token = null, auth = trimToNull(request.getHeader(AUTHORIZATION));
+		if (auth == null) token = trimToNull(request.getParameter(ACCESS_TOKEN));
+		else if(auth.startsWith(BEARER)) token = trimToNull(auth.substring(BEARER.length())); return token;
 	}
 	
 	public static Cookie getCookie(HttpServletRequest request, final String name) {
