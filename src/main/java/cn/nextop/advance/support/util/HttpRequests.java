@@ -35,7 +35,6 @@ public final class HttpRequests {
 	//
 	public static final String SESSION_ID_KEY = "session_id";
 	
-	
 	//
 	public static final String LOGIN_KEY = "_login_";
 	public static final String CONTEXT_KEY = "_context_";
