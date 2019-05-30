@@ -17,6 +17,15 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
  *
  */
 public abstract class AbstractHandshakeInterceptor implements HandshakeInterceptor  {
+	//
+	protected final String name;
+	
+	/**
+	 * 
+	 */
+	public AbstractHandshakeInterceptor(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * 

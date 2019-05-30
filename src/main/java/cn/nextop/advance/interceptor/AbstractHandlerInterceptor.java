@@ -13,6 +13,15 @@ import org.springframework.web.servlet.ModelAndView;
  *
  */
 public abstract class AbstractHandlerInterceptor implements HandlerInterceptor {
+	//
+	protected final String name;
+	
+	/**
+	 * 
+	 */
+	public AbstractHandlerInterceptor(String name) {
+		this.name = name;
+	}
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		return true;

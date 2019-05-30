@@ -11,7 +11,9 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import cn.nextop.advance.interceptor.impl.AuthInterceptor;
+import cn.nextop.advance.interceptor.impl.HttpAccessInterceptor;
+import cn.nextop.advance.interceptor.impl.HttpAuthenticationInterceptor;
+import cn.nextop.advance.interceptor.impl.HttpAuthorizationInterceptor;
 
 /**
  * 
@@ -47,16 +49,28 @@ public class WebConfig implements WebMvcConfigurer {
 	}
 	
 	/**
-	 * Interceptor
+	 * Http Interceptor
 	 */
 	@Bean
-	public AuthInterceptor getAuthInterceptor() {
-		return new AuthInterceptor();
+	public HttpAccessInterceptor getAccessInterceptor() {
+		return new HttpAccessInterceptor();
+	}
+	
+	@Bean
+	public HttpAuthorizationInterceptor getAuthorizationInterceptor() {
+		return new HttpAuthorizationInterceptor();
+	}
+	
+	@Bean
+	public HttpAuthenticationInterceptor getAuthenticationInterceptor() {
+		return new HttpAuthenticationInterceptor();
 	}
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(getAuthInterceptor()).addPathPatterns("/api/**");
+		registry.addInterceptor(getAccessInterceptor()).order(3).addPathPatterns("/api/**");
+		registry.addInterceptor(getAuthorizationInterceptor()).order(2).addPathPatterns("/api/**");
+		registry.addInterceptor(getAuthenticationInterceptor()).order(1).addPathPatterns("/api/**");
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 }

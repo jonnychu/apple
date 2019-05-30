@@ -9,8 +9,20 @@ import org.springframework.web.socket.WebSocketHandler;
 import cn.nextop.advance.interceptor.AbstractHandshakeInterceptor;
 import cn.nextop.advance.support.util.HttpRequests;
 
+/**
+ * 
+ * @author qutl
+ *
+ */
 public class XHandshakeInterceptor extends AbstractHandshakeInterceptor {
 
+	/**
+	 * 
+	 */
+	public XHandshakeInterceptor() {
+		super("web.advance.interceptor.handshake");
+	}
+	
 	@Override
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
 			Map<String, Object> attributes) throws Exception {
