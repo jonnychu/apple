@@ -34,6 +34,9 @@ public class WebConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addCorsMappings(registry);
 	}
 	
+	/**
+	 * Json convert
+	 */
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		WebMvcConfigurer.super.configureMessageConverters(converters);

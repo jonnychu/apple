@@ -10,6 +10,11 @@ import cn.nextop.advance.realtime.channel.api.customer.event.CustomerEvent;
 import cn.nextop.advance.realtime.glossary.Event;
 import cn.nextop.advance.support.realtime.XWebSocketSession;
 
+/**
+ * 
+ * @author qutl
+ *
+ */
 public class CustomerChannel extends AbstractApiChannel {
 	//
 	public CustomerChannel () { super("customer", Event.CUSTOMER); }
