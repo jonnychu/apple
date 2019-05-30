@@ -23,7 +23,7 @@ public class HttpAuthorizationInterceptor extends AbstractHandlerInterceptor {
 	 * 
 	 */
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {System.out.println(2);
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		return true;
 	}
 }

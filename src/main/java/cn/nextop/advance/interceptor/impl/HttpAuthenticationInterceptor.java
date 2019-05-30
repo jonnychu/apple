@@ -35,7 +35,7 @@ public class HttpAuthenticationInterceptor extends AbstractHandlerInterceptor {
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-	throws Exception { System.out.println(1);
+	throws Exception {
 		// 1
 		if ((!(handler instanceof HandlerMethod))) return true;
 		final HttpSession v = request.getSession(false /* not create */ );

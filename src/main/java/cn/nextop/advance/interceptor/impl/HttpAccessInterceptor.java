@@ -36,7 +36,7 @@ public class HttpAccessInterceptor extends AbstractHandlerInterceptor {
 	 */
 	@Override
 	public final void afterCompletion( HttpServletRequest request, HttpServletResponse response, Object handler, Exception error )
-	throws Exception {System.out.println(3);
+	throws Exception {
 		//
 		if(!(handler instanceof HandlerMethod)) return;
 		
