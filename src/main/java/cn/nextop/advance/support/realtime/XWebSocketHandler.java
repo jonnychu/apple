@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.PingMessage;
@@ -44,6 +45,8 @@ public class XWebSocketHandler implements WebSocketHandler {
 	private List<XWebSocketChannel> channels1 = new ArrayList<>();
 	private final ConcurrentMultiKeyMap<String, String, WebSocketSession> sessions;
 	private final Map<Event, XWebSocketChannel> channels2 = new EnumMap<>(Event.class);
+	//
+	@Value("${apple.websockte.session.timeout}") private long timeout;
 	
 	/**
 	 * 
@@ -121,7 +124,6 @@ public class XWebSocketHandler implements WebSocketHandler {
 	@Scheduled(cron = "0/15 * * * * *")
 	protected void pulse() {
 		final long now = System.currentTimeMillis(), mark = System.nanoTime();
-		final long timeout = 30000L;
 		try {
 			if (timeout > 0L) {	for(final String key : this.sessions.keySet()) {
 					for(final WebSocketSession session : this.sessions.get((key)).values()) {
@@ -141,7 +143,6 @@ public class XWebSocketHandler implements WebSocketHandler {
 		} catch(Throwable cause) {
 			LOGGER.error("failed to pulse, elapsed time: " + TimeUnit.MILLISECONDS.toNanos(System.nanoTime() - mark) + " ms", cause);
 		}
-		System.out.println("pulse");
 	}
 
 	/**

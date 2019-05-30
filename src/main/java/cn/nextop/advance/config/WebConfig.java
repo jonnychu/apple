@@ -2,6 +2,7 @@ package cn.nextop.advance.config;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -19,6 +20,8 @@ import cn.nextop.advance.interceptor.impl.AuthInterceptor;
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+	//
+	@Value("${apple.web.aysnc.timeout}") private long timeout;
 	
 	/**
 	 * Cors
@@ -39,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
 	 */
 	@Override
 	public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-		configurer.setDefaultTimeout(6000);
+		configurer.setDefaultTimeout(timeout);
 		WebMvcConfigurer.super.configureAsyncSupport(configurer);
 	}
 	
