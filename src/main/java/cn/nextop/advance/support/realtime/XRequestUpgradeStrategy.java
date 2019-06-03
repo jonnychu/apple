@@ -46,7 +46,7 @@ import com.google.common.collect.Sets;
  */
 public class XRequestUpgradeStrategy implements RequestUpgradeStrategy, ServletContextAware, Lifecycle {
 	//
-	private static final ThreadLocal<WebSocketHandlerContainer> CONTAINER = new NamedThreadLocal<>("WebSocket Handler Container");
+	private static final ThreadLocal<WebSocketHandlerContainer> CONTAINER = new NamedThreadLocal<>("WebSocketHandlerContainer");
 	
 	//
 	private ServletContext context;
